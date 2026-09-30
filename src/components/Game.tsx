@@ -96,11 +96,6 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
   }
   const total = score(s)
   const pen = penalty(s)
-  const ids = Object.keys(puzzle.nodes).filter((id) => id !== puzzle.root)
-  const squares = ids
-    .map((id) => (revealed.has(id) ? '🟥' : letters.has(id) ? '🟨' : '🟩'))
-    .join('')
-  const share = `Nawiasem mówiąc · ${LEVEL_LABEL[puzzle.level]} · ${fmt(total)} · ${squares}`
 
   return (
     <section aria-label={`Łamigłówka: ${LEVEL_LABEL[puzzle.level]}`}>
@@ -132,7 +127,6 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
               {puzzle.source.text}
             </a>
           </p>
-          <p className="share">{share}</p>
           <div className="row">
             <button type="button" className="ghost" onClick={reset}>
               Zagraj od nowa

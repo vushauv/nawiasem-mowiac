@@ -13,6 +13,9 @@ interface Props {
   depth?: number
 }
 
+// Word joiner: keeps a bracket glued to the word next to it so it never wraps alone.
+const WJ = '\u2060'
+
 // Renders a node's template; each {child} becomes either the solved word
 // or a bracket that renders the child recursively.
 export default function Node(props: Props) {
@@ -40,21 +43,35 @@ export default function Node(props: Props) {
 
         if (isOpen) {
           return (
-            <button
+            // span, not <button>: buttons are atomic and can't wrap across lines
+            <span
               key={i}
-              type="button"
+              role="button"
+              tabIndex={0}
               className={`bracket open d${depth % 5}${selected === c ? ' selected' : ''}`}
               aria-label={`Nawias do odgadnięcia: ${plainText(puzzle, c, solved)}`}
               aria-pressed={selected === c}
-              onClick={() => onSelect(c)}
+              onClick={(e) => {
+                e.stopPropagation()
+                onSelect(c)
+              }}
+              onKeyDown={(e) => {
+                if (e.target !== e.currentTarget) return
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onSelect(c)
+                }
+              }}
             >
               <span className="br">[</span>
+              {WJ}
               {inner}
               {letters.has(c) && (
                 <span className="letter"> ({child.answer![0].toUpperCase()}…)</span>
               )}
+              {WJ}
               <span className="br">]</span>
-            </button>
+            </span>
           )
         }
 
@@ -65,8 +82,10 @@ export default function Node(props: Props) {
             aria-label={`Zablokowany nawias: ${plainText(puzzle, c, solved)}`}
           >
             <span className="br">[</span>
+              {WJ}
             {inner}
-            <span className="br">]</span>
+            {WJ}
+              <span className="br">]</span>
           </span>
         )
       })}
