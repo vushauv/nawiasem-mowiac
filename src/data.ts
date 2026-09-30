@@ -19,22 +19,19 @@ const easy: Puzzle = {
   nodes: {
     root: {
       template:
-        '{konst}ę 3 maja 1791 roku uchwalono w {miasto}ie za panowania {stan}a {aug}a Poniatowskiego.',
+        '{konst} 3 maja została uchwalona w 1791 roku za panowania {stan}a {aug}a Poniatowskiego, a jej kolebką była {miasto}.',
     },
     konst: {
       template: 'ustawa nad ustawami',
-      answer: 'Konstytucj',
-      aliases: ['Konstytucja'],
+      answer: 'Konstytucja',
     },
     miasto: {
-      template: 'miasto syrenki nad {rzeka}ą',
-      answer: 'Warszaw',
-      aliases: ['Warszawa'],
+      template: 'miasto syrenki, przez które płynie {rzeka}',
+      answer: 'Warszawa',
     },
     rzeka: {
       template: 'królowa polskich rzek',
-      answer: 'Wisł',
-      aliases: ['Wisła'],
+      answer: 'Wisła',
     },
     stan: {
       template: 'imię świętego ze Skałki i ostatniego króla',
@@ -72,7 +69,7 @@ const medium: Puzzle = {
       answer: 'rok',
     },
     sejm: {
-      template: 'parlament obradujący {cztery} lata',
+      template: 'polski parlament' ,
       answer: 'Sejm',
     },
     cztery: {
@@ -113,79 +110,55 @@ const hard: Puzzle = {
   nodes: {
     root: {
       template:
-        '{konst}a 3 maja zniosła {veto}, lecz {targ} wezwała na pomoc {imp}ę, a po przegranej wojnie w obronie ustawy nastąpił {rozbior} Polski.',
+        '{konst} 3 maja zniosła liberum {veto}, lecz {konf} Targowicka wezwała obce wojska, a gdy {imp} wygrała wojnę, nastąpił drugi {rozbior} Polski.',
     },
     konst: {
-      template:
-        'podzieliła władzę na {ustaw}ą, wykonawczą i sądowniczą',
-      answer: 'Konstytucj',
-      aliases: ['Konstytucja', 'Ustawa Rządowa'],
-    },
-    ustaw: {
-      template: 'ta, którą sprawuje {sejm}',
-      answer: 'ustawodawcz',
-      aliases: ['ustawodawcza', 'władza ustawodawcza'],
+      template: 'podzieliła władzę na trzy części, a ustawy uchwalał {sejm}',
+      answer: 'Konstytucja',
     },
     sejm: {
-      template: 'izba posłów',
+      template: 'izba, w której zasiadali posłowie',
       answer: 'Sejm',
-      aliases: ['Izba Poselska'],
     },
     veto: {
-      template:
-        'jedno „nie” zrywało cały sejm; wolne {veto2}',
-      answer: 'liberum veto',
-    },
-    veto2: {
-      template: 'łacińskie „zabraniam”',
+      template: 'łacińskie „zabraniam”, którym jeden {posel} mógł zerwać obrady',
       answer: 'veto',
     },
-    targ: {
-      template: 'zdrada magnatów, nazwana od wsi {wies}y',
-      answer: 'Konfederacja Targowicka',
-      aliases: ['konfederacja'],
+    posel: {
+      template: 'przedstawiciel szlachty wybrany na sejmiku',
+      answer: 'poseł',
+    },
+    konf: {
+      template: 'związek magnatów zawiązany w miejscowości {wies}',
+      answer: 'Konfederacja',
     },
     wies: {
-      template: '{targ2}owica',
-      answer: 'Targowic',
-      aliases: ['Targowica'],
+      template: 'wieś na Ukrainie, w której nazwie ukrył się {targ}',
+      answer: 'Targowica',
     },
-    targ2: {
+    targ: {
       template: 'miejsce handlu pod chmurką',
-      answer: 'Targ',
+      answer: 'targ',
     },
     imp: {
-      template: 'kraj, w którym rządziła {caryca}',
-      answer: 'Rosj',
-      aliases: ['Rosja', 'Imperium Rosyjskie'],
+      template: 'imperium, którym rządziła caryca {caryca} II',
+      answer: 'Rosja',
     },
     caryca: {
-      template: 'obaliła własnego męża, {piotr3}',
-      answer: 'Katarzyna II',
-      shown: 'Katarzynę II',
-      aliases: ['Katarzyna Wielka', 'Katarzyna'],
+      template: 'obaliła własnego męża, cara {piotr} III',
+      answer: 'Katarzyna',
     },
-    piotr3: {
-      template: 'wnuk cara {piotr1}',
-      answer: 'Piotr III',
-      shown: 'Piotra III',
-    },
-    piotr1: {
-      template: 'car, który wyciął okno na Europę',
-      answer: 'Piotr I',
-      shown: 'Piotra Wielkiego',
-      aliases: ['Piotr Wielki', 'Piotr I Wielki'],
+    piotr: {
+      template: 'imię cara, który wyciął okno na Europę',
+      answer: 'Piotr',
     },
     rozbior: {
-      template: 'mapa pocięta w 1793 przez Rosję i {prusy}y',
-      answer: 'drugi rozbiór',
-      aliases: ['II rozbiór'],
+      template: 'podział kraju, którego w 1793 roku dokonały Rosja i {prusy}',
+      answer: 'rozbiór',
     },
     prusy: {
-      template:
-        'królestwo Fryderyka Wielkiego',
-      answer: 'Prus',
-      aliases: ['Prusy', 'Królestwo Pruskie'],
+      template: 'królestwo Fryderyka Wielkiego',
+      answer: 'Prusy',
     },
   },
 }
