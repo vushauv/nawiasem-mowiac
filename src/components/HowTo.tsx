@@ -11,14 +11,10 @@ const mini: Puzzle = {
   source: { text: '', url: '' },
   context: '',
   nodes: {
-    root: { template: '{historyk} pracuje w {stolica}u.' },
-    historyk: { template: 'naukowiec badający przeszłość', answer: 'Historyk' },
-    stolica: { template: '{stol}ica Francji', answer: 'Paryż' },
-    stol: {
-      template: 'mebel, przy którym się je obiad',
-      answer: 'stol',
-      aliases: ['stół'],
-    },
+    root: { template: '{pies} goni {kot}a.' },
+    pies: { template: 'zwierzę, które szczeka', answer: 'pies', shown: 'Pies' },
+    kot: { template: 'domowy zwierzak, który łapie {mysz}y', answer: 'kot' },
+    mysz: { template: 'mały gryzoń, który lubi ser', answer: 'mysz' },
   },
 }
 
@@ -84,7 +80,7 @@ export default function HowTo({ onClose }: { onClose: () => void }) {
           głowie jednocześnie.
         </p>
         <p>
-          Litery doklejone do nawiasu, jak w <em>[…]ica</em>, są częścią słowa: wpisujesz tylko to,
+          Litery doklejone do nawiasu, jak w <em>[…]a</em>, są częścią słowa: wpisujesz tylko to,
           co mieści się w nawiasie, a końcówkę gra dopisze sama. Nie musisz pisać dokładnie tak jak
           w źródle — liczy się słowo, które pasuje do podpowiedzi.
         </p>
