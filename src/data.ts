@@ -22,26 +22,26 @@ const easy: Puzzle = {
         '{konst}ę 3 maja 1791 roku uchwalono w {miasto}ie za panowania {stan}a {aug}a Poniatowskiego.',
     },
     konst: {
-      template: 'najważniejsza ustawa w państwie, określająca jego ustrój',
+      template: 'ustawa nad ustawami',
       answer: 'Konstytucj',
       aliases: ['Konstytucja'],
     },
     miasto: {
-      template: 'stolica Polski, leżąca nad {rzeka}ą',
+      template: 'miasto syrenki nad {rzeka}ą',
       answer: 'Warszaw',
       aliases: ['Warszawa'],
     },
     rzeka: {
-      template: 'najdłuższa rzeka Polski',
+      template: 'królowa polskich rzek',
       answer: 'Wisł',
       aliases: ['Wisła'],
     },
     stan: {
-      template: 'pierwsze imię ostatniego króla Polski',
+      template: 'imię świętego ze Skałki i ostatniego króla',
       answer: 'Stanisław',
     },
     aug: {
-      template: 'drugie imię ostatniego króla Polski; po angielsku także ósmy miesiąc roku',
+      template: 'ósmy miesiąc po angielsku',
       answer: 'August',
     },
   },
@@ -61,37 +61,37 @@ const medium: Puzzle = {
     },
     zamek: {
       template:
-        'główna rezydencja {krol} w stolicy, wysadzona przez Niemców w 1944 roku i odbudowana po wojnie',
+        'dom {krol}, wysadzony w 1944',
       answer: 'Zamk',
       aliases: ['Zamek'],
     },
     krol: {
-      template: 'ostatni król Polski',
-      answer: 'Stanisław August Poniatowski',
-      shown: 'Stanisława Augusta Poniatowskiego',
-      aliases: ['Stanisław August', 'Poniatowski'],
+      template: 'gospodarz obiadów czwartkowych',
+      answer: 'Stanisław August',
+      shown: 'Stanisława Augusta',
+      aliases: ['Stanisław August Poniatowski', 'Poniatowski'],
     },
     sejm: {
-      template: 'parlament z lat 1788–1792, nazywany {cztery}oletnim',
+      template: '{cztery}oletni parlament reform',
       answer: 'Sejm Czteroletni',
       aliases: ['Sejm Wielki', 'Sejm'],
     },
     cztery: {
-      template: 'tyle jest pór roku',
+      template: 'tyle pór roku',
       answer: 'czter',
       aliases: ['cztery', '4'],
     },
     konst: {
-      template: 'pierwsza w Europie nowoczesna ustawa zasadnicza, nazwana od dnia uchwalenia',
+      template: 'pierwsza taka w Europie',
       answer: 'Konstytucj',
       aliases: ['Konstytucja', 'Ustawa Rządowa'],
     },
     maj: {
-      template: 'miesiąc między kwietniem a czerwcem',
+      template: 'miesiąc maturzystów i kasztanów',
       answer: 'maj',
     },
     imp: {
-      template: 'największe państwo świata, rządzone wtedy przez {caryca}',
+      template: 'wielki kraj pod rządami {caryca}',
       answer: 'Rosja',
       aliases: ['Imperium Rosyjskie'],
     },
@@ -102,7 +102,7 @@ const medium: Puzzle = {
       aliases: ['Katarzyna Wielka', 'Katarzyna'],
     },
     dwa: {
-      template: 'jedyna parzysta liczba pierwsza',
+      template: 'tyle nóg ma człowiek',
       answer: 'dwa',
       shown: 'II',
       aliases: ['2', 'II'],
@@ -124,23 +124,23 @@ const hard: Puzzle = {
     },
     konst: {
       template:
-        'polska ustawa zasadnicza z maja 1791 roku, która podzieliła władzę na {ustaw}ą, wykonawczą i sądowniczą',
+        'podzieliła władzę na {ustaw}ą, wykonawczą i sądowniczą',
       answer: 'Konstytucj',
       aliases: ['Konstytucja', 'Ustawa Rządowa'],
     },
     ustaw: {
-      template: 'ta z trzech władz, którą sprawuje {sejm}',
+      template: 'ta, którą sprawuje {sejm}',
       answer: 'ustawodawcz',
       aliases: ['ustawodawcza', 'władza ustawodawcza'],
     },
     sejm: {
-      template: 'izba, w której zasiadają posłowie, a nie senatorowie',
+      template: 'izba posłów',
       answer: 'Sejm',
       aliases: ['Izba Poselska'],
     },
     veto: {
       template:
-        'zasada, dzięki której jeden poseł mógł zerwać obrady; po łacinie „wolne {veto2}”',
+        'jedno „nie” zrywało cały sejm; wolne {veto2}',
       answer: 'liberum veto',
     },
     veto2: {
@@ -148,46 +148,49 @@ const hard: Puzzle = {
       answer: 'veto',
     },
     targ: {
-      template: 'związek magnatów z 1792 roku, nazwany od ukraińskiej wsi {wies}y',
+      template: 'zdrada magnatów, nazwana od wsi {wies}y',
       answer: 'Konfederacja Targowicka',
       aliases: ['konfederacja'],
     },
     wies: {
-      template:
-        'wieś, której nazwa pochodzi od słowa oznaczającego miejsce handlu pod gołym niebem',
+      template: '{targ2}owica',
       answer: 'Targowic',
       aliases: ['Targowica'],
     },
+    targ2: {
+      template: 'miejsce handlu pod chmurką',
+      answer: 'Targ',
+    },
     imp: {
-      template: 'państwo rządzone wówczas przez {caryca}',
+      template: 'kraj, w którym rządziła {caryca}',
       answer: 'Rosj',
       aliases: ['Rosja', 'Imperium Rosyjskie'],
     },
     caryca: {
-      template: 'caryca, która w 1762 roku zdetronizowała swojego męża, {piotr3}',
+      template: 'obaliła własnego męża, {piotr3}',
       answer: 'Katarzyna II',
       shown: 'Katarzynę II',
       aliases: ['Katarzyna Wielka', 'Katarzyna'],
     },
     piotr3: {
-      template: 'wnuk cara {piotr1}, obalony w 1762 roku przez własną żonę',
+      template: 'wnuk cara {piotr1}',
       answer: 'Piotr III',
       shown: 'Piotra III',
     },
     piotr1: {
-      template: 'car, który założył Petersburg',
+      template: 'car, który wyciął okno na Europę',
       answer: 'Piotr I',
       shown: 'Piotra Wielkiego',
       aliases: ['Piotr Wielki', 'Piotr I Wielki'],
     },
     rozbior: {
-      template: 'podział ziem polskich w 1793 roku między Rosją i {prusy}ami',
+      template: 'mapa pocięta w 1793 przez Rosję i {prusy}y',
       answer: 'drugi rozbiór',
       aliases: ['II rozbiór'],
     },
     prusy: {
       template:
-        'niemieckie królestwo ze stolicą w Berlinie, którego królem był wtedy Fryderyk Wilhelm II',
+        'królestwo Fryderyka Wielkiego',
       answer: 'Prus',
       aliases: ['Prusy', 'Królestwo Pruskie'],
     },
