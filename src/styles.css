@@ -5,6 +5,7 @@
   --muted: #707070;
   --accent: #e2001a;
   --lock: #8a8a8a;
+  --bracket: #a8292d;
   --ok: #1b7f4b;
   --line: #d6d3cc;
   --serif: 'Austin News Deck Web', 'Times New Roman', serif;
@@ -24,7 +25,7 @@ main { flex: 1; }
 header { border-bottom: 3px solid var(--ink); padding-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .logo { font: 500 1.9rem/1.1 var(--serif); margin: 0; letter-spacing: -.01em; }
 .br { font-family: var(--mono); font-weight: 700; color: var(--lock); }
-.bracket.open > .br { color: var(--accent); }
+.bracket.open > .br { color: var(--bracket); }
 
 button, input { font: inherit; color: inherit; }
 button, .tab, .hint-label { font-family: var(--sans); }
@@ -50,14 +51,14 @@ button:disabled { opacity: .5; cursor: default; }
 }
 .sentence.small { font-size: 1.05rem; padding: 12px; }
 .bracket.open {
-  display: inline; background: none; color: var(--ink); border: 0; padding: 0;
-  font: inherit; font-weight: 400; text-transform: none; letter-spacing: normal;
+  display: inline; background: none; color: var(--bracket); border: 0; padding: 0;
+  font: inherit; font-weight: 700; text-transform: none; letter-spacing: normal;
   text-align: left; line-height: inherit; cursor: pointer;
 }
 .bracket.open.selected { background: rgba(0, 0, 0, .08); }
 .bracket.locked { color: var(--lock); }
 .word { color: inherit; font-weight: inherit; }
-.letter { color: var(--accent); font-weight: 700; }
+.letter { color: var(--bracket); font-weight: 700; }
 
 .row { display: flex; gap: 8px; margin-top: 12px; }
 .row input { flex: 1; min-width: 0; }
