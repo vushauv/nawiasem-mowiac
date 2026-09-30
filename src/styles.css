@@ -1,0 +1,105 @@
+:root {
+  --bg: #0e1226;
+  --panel: #171c38;
+  --ink: #eef0fa;
+  --muted: #a3a9c9;
+  --accent: #ff8a4c;
+  --lock: #7f86b5;
+  --ok: #5bd69a;
+  --line: #2b3260;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 18px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.app { max-width: 760px; margin: 0 auto; padding: 16px; }
+header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.logo { font-size: 1.5rem; margin: 0; letter-spacing: .01em; }
+.br { font-family: var(--mono); color: var(--accent); }
+
+button, input { font: inherit; color: inherit; }
+button {
+  background: var(--accent); color: #1a1205; border: 0; border-radius: 8px;
+  padding: 8px 14px; cursor: pointer; font-weight: 600;
+}
+button.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+button:disabled { opacity: .5; cursor: default; }
+:focus-visible { outline: 3px solid #8fb4ff; outline-offset: 2px; }
+
+.tabs { display: flex; gap: 8px; margin: 16px 0; }
+.tab { flex: 1; background: var(--panel); color: var(--muted); border: 1px solid var(--line); text-transform: capitalize; }
+.tab.active { background: var(--ink); color: var(--bg); }
+
+.bar { display: flex; justify-content: space-between; align-items: baseline; }
+.timer { font-family: var(--mono); font-size: 1.6rem; }
+.muted { color: var(--muted); font-size: .9rem; }
+
+.sentence {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding: 20px; font-size: 1.25rem; line-height: 2.1; margin: 12px 0;
+}
+.sentence.small { font-size: 1.05rem; padding: 12px; }
+.bracket.open {
+  display: inline; background: rgba(255, 138, 76, .12); color: var(--ink);
+  border: 1px solid var(--accent); border-radius: 8px; padding: 2px 6px;
+  font-weight: 400; text-align: left; line-height: 1.8;
+}
+.bracket.open.selected { background: rgba(255, 138, 76, .3); }
+.bracket.locked {
+  color: var(--lock); border: 1px dashed var(--lock); border-radius: 8px; padding: 2px 4px;
+}
+.word { color: var(--ok); }
+.word.revealed { color: #ffd166; }
+.letter { color: var(--accent); font-weight: 700; }
+
+.row { display: flex; gap: 8px; margin-top: 12px; }
+.row input { flex: 1; min-width: 0; }
+input {
+  background: var(--panel); border: 2px solid var(--line); border-radius: 8px; padding: 10px 12px;
+}
+.hints { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+.msg { min-height: 1.6em; color: var(--muted); margin: 8px 0 0; }
+.ok { color: var(--ok); }
+
+.win { background: var(--panel); border: 1px solid var(--ok); border-radius: 12px; padding: 16px; }
+.win h2 { margin: 0; }
+.big { font-family: var(--mono); font-size: 2.4rem; margin: 0; color: var(--ok); }
+.share { font-family: var(--mono); background: var(--bg); padding: 8px; border-radius: 8px; }
+a { color: #8fb4ff; }
+
+.overlay {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, .7); display: grid;
+  place-items: center; padding: 16px; overflow: auto;
+}
+.modal {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding: 20px; max-width: 560px; width: 100%; max-height: 100%; overflow: auto;
+}
+.modal h2 { margin-top: 0; }
+.modal .ghost { margin-top: 16px; }
+
+footer { margin-top: 32px; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--line); }
+@media (max-width: 480px) {
+  .sentence { font-size: 1.1rem; padding: 14px; }
+}
+
+/* Mobile: keep hints + answer field glued to the bottom of the screen */
+@media (max-width: 640px) {
+  .dock {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    margin: 0 -16px;
+    padding: 4px 16px calc(8px + env(safe-area-inset-bottom));
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -8px 16px rgba(0, 0, 0, .35);
+  }
+  .dock .row { margin-top: 4px; }
+  .dock .msg { margin: 4px 0 0; min-height: 1.4em; font-size: .9rem; }
+  input { font-size: 16px; } /* avoid iOS zoom on focus */
+}
