@@ -7,7 +7,7 @@ import {
 } from '../game'
 import Node from './Node'
 
-const key = (p: Puzzle) => `nm:v1:${p.id}`
+const key = (p: Puzzle) => `nm:v2:${p.id}`
 
 const load = (p: Puzzle): GameState => {
   try {

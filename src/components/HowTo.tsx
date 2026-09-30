@@ -11,12 +11,14 @@ const mini: Puzzle = {
   source: { text: '', url: '' },
   context: '',
   nodes: {
-    root: { template: 'Każdego ranka wstaje {slonce}.' },
-    slonce: {
-      template: 'gwiazda, wokół której krąży {ziemia}',
-      answer: 'Słońce',
+    root: { template: '{historyk} pracuje w {stolica}u.' },
+    historyk: { template: 'naukowiec badający przeszłość', answer: 'Historyk' },
+    stolica: { template: '{stol}ica Francji', answer: 'Paryż' },
+    stol: {
+      template: 'mebel, przy którym się je obiad',
+      answer: 'stol',
+      aliases: ['stół'],
     },
-    ziemia: { template: 'planeta, na której mieszkamy', answer: 'Ziemia' },
   },
 }
 
@@ -69,17 +71,32 @@ export default function HowTo({ onClose }: { onClose: () => void }) {
         aria-labelledby="howto-title"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 id="howto-title">Jak grać</h2>
-        <ol>
-          <li>Zdanie opisuje prawdziwe wydarzenie z historii. Część słów ukryto w nawiasach.</li>
-          <li>Najpierw możesz odgadnąć tylko nawiasy, które nie zawierają innych nawiasów.</li>
-          <li>Wpisz odpowiedź w jedno pole – gra sprawdzi ją we wszystkich otwartych nawiasach.</li>
-          <li>Odgadnięte słowo wskakuje na miejsce i odblokowuje nawias wyżej.</li>
-          <li>Kliknij otwarty nawias, aby wybrać go i poprosić o podpowiedź. Każda kosztuje dodatkowy czas: litera – pierwsza litera odpowiedzi ({PENALTY.letter} s), słowo – odsłonięcie całej odpowiedzi ({PENALTY.reveal} s).</li>
-          <li>Błędna odpowiedź też kosztuje czas.</li>
-        </ol>
-        <p className="muted">Spróbuj na małym przykładzie:</p>
-        <div className="sentence small">
+        <p className="kicker">Jak grać</p>
+        <h2 id="howto-title">Spróbuj odkryć warstwę</h2>
+        <p>
+          Jeśli znasz odpowiedź, po prostu wpisz ją w polu na dole —{' '}
+          <strong>klikanie nawiasu nie jest potrzebne</strong>. Poprawne słowo samo pojawi się na
+          swoim miejscu i stanie się częścią następnej podpowiedzi.
+        </p>
+        <p>
+          Jeśli otwartych jest kilka podpowiedzi naraz,{' '}
+          <strong>możesz je rozwiązywać w dowolnej kolejności</strong> — albo trzymać kilka w
+          głowie jednocześnie.
+        </p>
+        <p>
+          Litery doklejone do nawiasu, jak w <em>[…]ica</em>, są częścią słowa: wpisujesz tylko to,
+          co mieści się w nawiasie, a końcówkę gra dopisze sama. Nie musisz pisać dokładnie tak jak
+          w źródle — liczy się słowo, które pasuje do podpowiedzi.
+        </p>
+        <p>
+          <strong>Kliknij nawias, jeśli potrzebujesz pomocy przy konkretnej podpowiedzi.</strong>
+        </p>
+        <p>
+          Każda błędna odpowiedź dodaje do czasu {PENALTY.mistake} s, pierwsza litera — {PENALTY.letter}{' '}
+          s, a odsłonięcie całego słowa — {PENALTY.reveal} s. W tym przykładzie podpowiedzi są
+          szkoleniowe i bez kary.
+        </p>
+        <div className="sentence small example">
           <Node
             puzzle={mini}
             id="root"
@@ -103,22 +120,36 @@ export default function HowTo({ onClose }: { onClose: () => void }) {
           </div>
         )}
         {open.includes('root') ? (
-          <p className="ok">Brawo! Zdanie złożone. Tak wygrywasz każdą łamigłówkę.</p>
+          <p className="status ok">Brawo! Zdanie złożone. Tak wygrywasz każdą łamigłówkę.</p>
         ) : (
-          <form onSubmit={submit} className="row">
-            <input
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              aria-label="Odpowiedź w przykładzie"
-              placeholder="np. ziemia"
-              autoComplete="off"
-            />
-            <button type="submit">Sprawdź</button>
-          </form>
+          <>
+            <p className="status">
+              {open.length > 1
+                ? 'Otwarte są dwie gałęzie — pierwszą można rozwiązać od razu, a drugą odkrywać krok po kroku.'
+                : 'Została jedna gałąź — teraz odpowiedź wynika z poprzedniej.'}
+            </p>
+            <form onSubmit={submit}>
+              <label className="field-label" htmlFor="howto-answer">
+                Wpisz odpowiedź na dowolną dostępną podpowiedź:
+              </label>
+              <div className="row">
+                <input
+                  id="howto-answer"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  placeholder="Wpisz słowo wprost"
+                  autoComplete="off"
+                />
+                <button type="submit">Sprawdź</button>
+              </div>
+            </form>
+          </>
         )}
-        <button ref={closeRef} type="button" className="ghost" onClick={onClose}>
-          Zamknij
-        </button>
+        <div className="modal-foot">
+          <button ref={closeRef} type="button" className="ghost" onClick={onClose}>
+            Zamknij
+          </button>
+        </div>
       </div>
     </div>
   )

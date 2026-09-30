@@ -39,14 +39,28 @@ export const openIds = (p: Puzzle, solved: Set<string>) =>
 export const isWon = (p: Puzzle, solved: Set<string>) =>
   openIds(p, solved).includes(p.root)
 
-// Ids of open nodes whose answer (or alias) matches the input.
+// Letters glued to a node's placeholder in its parent, e.g. "{miasto}ie" -> suffix "ie".
+// They are part of the final word, so typing the word together with them also counts.
+const glue = (p: Puzzle, id: string) => {
+  const re = new RegExp(`(\\p{L}*)\\{${id}\\}(\\p{L}*)`, 'u')
+  for (const n of Object.values(p.nodes)) {
+    const m = n.template.match(re)
+    if (m) return { pre: m[1], suf: m[2] }
+  }
+  return { pre: '', suf: '' }
+}
+
+// Ids of open nodes whose answer (or alias), bare or with its attached letters, matches the input.
 export const matchAnswer = (p: Puzzle, solved: Set<string>, input: string) => {
   const n = normalize(input)
   if (!n) return []
   return openIds(p, solved).filter((id) => {
     const node = p.nodes[id]
     if (!node.answer) return false
-    return [node.answer, ...(node.aliases ?? [])].some((a) => normalize(a) === n)
+    const { pre, suf } = glue(p, id)
+    return [node.answer, ...(node.aliases ?? [])].some((a) =>
+      [a, pre + a + suf].some((f) => normalize(f) === n),
+    )
   })
 }
 

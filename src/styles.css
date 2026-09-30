@@ -89,7 +89,14 @@ a { color: var(--accent); }
   .modal ol { padding-left: 1.3em; }
 }
 .modal h2 { margin-top: 0; font: 500 2.23em/1.1 var(--serif); }
-.modal .ghost { margin-top: 16px; }
+.modal p { margin: 0 0 12px; font-size: 1rem; line-height: 1.5; }
+.modal .kicker { font: 700 .72rem/1.4 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 4px; }
+.modal .example { margin: 16px 0 12px; }
+.modal .status { font: 600 .85rem/1.4 var(--sans); color: var(--muted); }
+.modal .status.ok { color: var(--ok); }
+.modal .field-label { display: block; font: 600 .75rem/1.4 var(--sans); margin-top: 4px; }
+.modal-foot { display: flex; justify-content: flex-end; margin-top: 20px; }
+.modal .ghost { margin-top: 0; }
 
 footer { margin-top: 32px; color: var(--muted); font-family: var(--sans); font-size: .75rem; border-top: 1px solid var(--line); }
 @media (max-width: 480px) {
