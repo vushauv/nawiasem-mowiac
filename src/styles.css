@@ -91,15 +91,20 @@ footer { margin-top: 32px; color: var(--muted); font-size: .85rem; border-top: 1
 /* Mobile: keep hints + answer field glued to the bottom of the screen */
 @media (max-width: 640px) {
   .dock {
-    position: sticky;
-    bottom: 0;
+    position: fixed;
+    left: 8px;
+    right: 8px;
+    bottom: calc(28px + env(safe-area-inset-bottom));
     z-index: 5;
-    margin: 0 -16px;
-    padding: 4px 16px calc(8px + env(safe-area-inset-bottom));
+    margin: 0;
+    padding: 8px 12px;
     background: var(--bg);
-    border-top: 1px solid var(--line);
-    box-shadow: 0 -8px 16px rgba(0, 0, 0, .35);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .45);
   }
+  /* reserve room at the very end of the page so the fixed dock never covers the footer */
+  .app:has(.dock) { padding-bottom: calc(20vh + 48px); padding-bottom: calc(20dvh + 48px + env(safe-area-inset-bottom)); }
   .dock { max-height: 20vh; max-height: 20dvh; overflow-y: auto; }
   .dock .hints { margin: 0 0 4px; gap: 6px; flex-wrap: nowrap; }
   .dock .hints button { padding: 4px 10px; font-size: .85rem; white-space: nowrap; }
