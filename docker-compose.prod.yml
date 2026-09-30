@@ -1,0 +1,13 @@
+# Production: built static bundle, reachable only via the shared `web` network
+# (the host's reverse proxy talks to it as http://wyborcza-game:80).
+services:
+  wyborcza-game:
+    build: .
+    container_name: wyborcza-game
+    restart: unless-stopped
+    networks:
+      - web
+
+networks:
+  web:
+    external: true

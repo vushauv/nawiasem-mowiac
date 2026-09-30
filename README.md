@@ -7,9 +7,16 @@ Built for a game-contest submission.
 
     docker compose up              # http://localhost:8080, hot reload (dev server)
 
-Production-style image (built static bundle, served by `vite preview`):
+Production image (built static bundle, served by nginx on :80):
 
-    docker build -t nawiasem . && docker run -p 8080:8080 nawiasem
+    docker build -t nawiasem . && docker run -p 8080:80 nawiasem
+
+On a server behind a reverse proxy, join the external `web` network instead of
+publishing a port:
+
+    docker compose -f docker-compose.prod.yml up -d --build
+
+and proxy to `http://wyborcza-game:80`.
 
 or locally: `npm install && npm run dev`.
 

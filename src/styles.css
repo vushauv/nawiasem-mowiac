@@ -26,6 +26,7 @@ header { border-bottom: 3px solid var(--ink); padding-bottom: 12px; display: fle
 .logo { font: 500 1.9rem/1.1 var(--serif); margin: 0; letter-spacing: -.01em; }
 .br { font-family: var(--mono); font-weight: 700; color: var(--lock); }
 .bracket.open > .br { color: var(--bracket); }
+.logo .br { color: var(--accent); }
 
 button, input { font: inherit; color: inherit; }
 button, .tab, .hint-label { font-family: var(--sans); }

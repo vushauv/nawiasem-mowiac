@@ -1,8 +1,11 @@
-FROM node:22-alpine
+FROM node:22-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
 RUN npm run build
-EXPOSE 8080
-CMD ["npm", "run", "preview"]
+
+# Static bundle served by nginx; meant to sit behind a reverse proxy.
+FROM nginx:1.29-alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
