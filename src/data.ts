@@ -57,7 +57,7 @@ const medium: Puzzle = {
   nodes: {
     root: {
       template:
-        '{zamek} Królewski był świadkiem, jak w {rok}u 1791 {sejm} uchwalił ustawę znaną jako {konst} 3 {maj}a, czym rozgniewał {car}ycę {kat}.',
+        '{zamek} Królewski był świadkiem, jak w {rok}u 1791 {sejm} Czteroletni uchwalił ustawę znaną jako {konst} 3 {maj}a, a {car}yca {kat} II uznała ją za zagrożenie.',
     },
     zamek: {
       template: 'dom {krol}a, wysadzony w 1944',
@@ -73,8 +73,7 @@ const medium: Puzzle = {
     },
     sejm: {
       template: 'parlament obradujący {cztery} lata',
-      answer: 'Sejm Czteroletni',
-      aliases: ['Sejm Wielki', 'Sejm'],
+      answer: 'Sejm',
     },
     cztery: {
       template: 'tyle pór roku',
@@ -84,7 +83,6 @@ const medium: Puzzle = {
     konst: {
       template: 'pierwsza taka w Europie, druga na świecie',
       answer: 'Konstytucja',
-      aliases: ['Ustawa Rządowa'],
     },
     maj: {
       template: 'miesiąc maturzystów i kasztanów',
@@ -96,9 +94,7 @@ const medium: Puzzle = {
     },
     kat: {
       template: 'Niemka na rosyjskim tronie, która obaliła męża, {piotr}a III',
-      answer: 'Katarzyna II',
-      shown: 'Katarzynę II',
-      aliases: ['Katarzyna Wielka', 'Katarzyna'],
+      answer: 'Katarzyna',
     },
     piotr: {
       template: 'imię apostoła z kluczami do nieba',
