@@ -17,11 +17,22 @@ const load = (p: Puzzle): GameState => {
   return emptyState()
 }
 
-export default function Game({ puzzle }: { puzzle: Puzzle }) {
+interface Props {
+  puzzle: Puzzle
+  paused?: boolean // a modal is open on top of the game
+  onNext?: () => void
+}
+
+// Only pointer-and-hover devices get auto-focus; on touch it would pop the keyboard up.
+const canHover = () => window.matchMedia('(hover: hover)').matches
+
+export default function Game({ puzzle, paused = false, onNext }: Props) {
   const [s, setS] = useState<GameState>(() => load(puzzle))
   const [selected, setSelected] = useState<string | null>(null)
   const [value, setValue] = useState('')
   const [msg, setMsg] = useState('')
+  const [armed, setArmed] = useState<'reveal' | 'reset' | null>(null)
+  const missStreak = useRef(0)
   const [visible, setVisible] = useState(!document.hidden)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -49,6 +60,23 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
     return () => clearInterval(t)
   }, [running])
 
+  // desktop: keep the answer field focused (on load and when the help modal closes)
+  useEffect(() => {
+    if (!paused && canHover()) inputRef.current?.focus()
+  }, [paused])
+
+  // feedback fades out; a destructive action stays "armed" for a few seconds only
+  useEffect(() => {
+    if (!msg) return
+    const t = setTimeout(() => setMsg(''), 3000)
+    return () => clearTimeout(t)
+  }, [msg])
+  useEffect(() => {
+    if (!armed) return
+    const t = setTimeout(() => setArmed(null), 4000)
+    return () => clearTimeout(t)
+  }, [armed])
+
   const start = () => !s.started && setS((x) => ({ ...x, started: true }))
 
   const submit = (e: React.FormEvent) => {
@@ -57,11 +85,14 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
     const hit = matchAnswer(puzzle, solved, value)
     if (hit.length) {
       setS((x) => ({ ...x, started: true, solved: [...x.solved, ...hit] }))
+      missStreak.current = 0
       setMsg('Trafione!')
       if (selected && hit.includes(selected)) setSelected(null)
     } else {
       setS((x) => ({ ...x, started: true, mistakes: x.mistakes + 1 }))
-      setMsg(`Nie pasuje. +${PENALTY.mistake} s`)
+      missStreak.current += 1
+      const n = missStreak.current
+      setMsg(`Nie pasuje. +${PENALTY.mistake} s${n > 1 ? ` (${n}×)` : ''}`)
     }
     setValue('')
   }
@@ -72,6 +103,8 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
   }
   const hintReveal = () => {
     if (!selected) return
+    if (armed !== 'reveal') { setArmed('reveal'); return }
+    setArmed(null)
     setS((x) => ({
       ...x,
       started: true,
@@ -81,6 +114,9 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
     setSelected(null)
   }
   const reset = () => {
+    if (armed !== 'reset') { setArmed('reset'); return }
+    setArmed(null)
+    missStreak.current = 0
     setS(emptyState())
     setSelected(null)
     setMsg('')
@@ -88,6 +124,7 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
 
   const select = (id: string) => {
     start()
+    setArmed(null)
     setSelected((cur) => (cur === id ? null : id))
   }
 
@@ -100,7 +137,7 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
   return (
     <section aria-label={`Łamigłówka: ${LEVEL_LABEL[puzzle.level]}`}>
       <div className="bar">
-        <span className="timer" aria-label="Czas">{fmt(s.elapsed)}</span>
+        <span className="timer" role="timer" aria-label="Czas">{fmt(s.elapsed)}</span>
         <span className="muted">
           błędy: {s.mistakes} · podpowiedzi: {s.letters.length + s.revealed.length}
         </span>
@@ -109,6 +146,10 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
       <p className="sentence">
         <Node {...nodeProps} id={puzzle.root} />
       </p>
+
+      {!won && !selected && (
+        <p className="muted tip">Wybierz nawias, by poprosić o podpowiedź</p>
+      )}
 
       {won ? (
         <div className="win" role="status">
@@ -128,8 +169,13 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
             </a>
           </p>
           <div className="row">
+            {onNext && (
+              <button type="button" onClick={onNext}>
+                Następny poziom
+              </button>
+            )}
             <button type="button" className="ghost" onClick={reset}>
-              Zagraj od nowa
+              {armed === 'reset' ? 'Na pewno? Wynik zniknie' : 'Zagraj od nowa'}
             </button>
           </div>
         </div>
@@ -142,9 +188,14 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
                 Litera (+{PENALTY.letter} s)
               </button>
               <button type="button" onClick={hintReveal}>
-                Słowo (+{PENALTY.reveal} s)
+                {armed === 'reveal' ? `Na pewno? +${PENALTY.reveal} s` : `Słowo (+${PENALTY.reveal} s)`}
               </button>
-              <button type="button" className="ghost" onClick={() => setSelected(null)}>
+              <button
+                type="button"
+                className="ghost close"
+                aria-label="Zamknij podpowiedzi"
+                onClick={() => { setSelected(null); setArmed(null) }}
+              >
                 ×
               </button>
             </div>
@@ -157,10 +208,13 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
               aria-label="Wpisz odpowiedź"
               placeholder="Wpisz odpowiedź…"
               autoComplete="off"
+              autoCorrect="off"
               autoCapitalize="off"
+              enterKeyHint="send"
               spellCheck={false}
             />
-            <button type="submit">Sprawdź</button>
+            {/* keep focus in the field so the mobile keyboard stays open between attempts */}
+            <button type="submit" onMouseDown={(e) => e.preventDefault()}>Sprawdź</button>
           </form>
           <p className="msg" aria-live="polite">{msg}</p>
         </div>

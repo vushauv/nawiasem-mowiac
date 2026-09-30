@@ -27,16 +27,31 @@ export default function HowTo({ onClose }: { onClose: () => void }) {
   const closeRef = useRef<HTMLButtonElement>(null)
   const open = openIds(mini, solved)
 
+  const modalRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null
     // preventScroll: the close button sits at the bottom, focusing it would scroll the rules down
     closeRef.current?.focus({ preventScroll: true })
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    const esc = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
-    window.addEventListener('keydown', esc)
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') return onClose()
+      if (e.key !== 'Tab' || !modalRef.current) return
+      // focus trap: wrap Tab / Shift+Tab inside the dialog
+      const f = modalRef.current.querySelectorAll<HTMLElement>(
+        'button:not(:disabled), input, [role="button"][tabindex="0"], a[href]',
+      )
+      if (!f.length) return
+      const first = f[0], last = f[f.length - 1]
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+    }
+    window.addEventListener('keydown', onKey)
     return () => {
-      window.removeEventListener('keydown', esc)
+      window.removeEventListener('keydown', onKey)
       document.body.style.overflow = prevOverflow
+      opener?.focus?.({ preventScroll: true })
     }
   }, [onClose])
 
@@ -61,37 +76,19 @@ export default function HowTo({ onClose }: { onClose: () => void }) {
   return (
     <div className="overlay" onClick={onClose}>
       <div
+        ref={modalRef}
         className="modal"
         role="dialog"
         aria-modal="true"
         aria-labelledby="howto-title"
         onClick={(e) => e.stopPropagation()}
       >
+        <button type="button" className="ghost modal-x" aria-label="Zamknij" onClick={onClose}>
+          ×
+        </button>
         <p className="kicker">Jak grać</p>
         <h2 id="howto-title">Spróbuj odkryć warstwę</h2>
-        <p>
-          Jeśli znasz odpowiedź, po prostu wpisz ją w polu na dole —{' '}
-          <strong>klikanie nawiasu nie jest potrzebne</strong>. Poprawne słowo samo pojawi się na
-          swoim miejscu i stanie się częścią następnej podpowiedzi.
-        </p>
-        <p>
-          Jeśli otwartych jest kilka podpowiedzi naraz,{' '}
-          <strong>możesz je rozwiązywać w dowolnej kolejności</strong> — albo trzymać kilka w
-          głowie jednocześnie.
-        </p>
-        <p>
-          Litery doklejone do nawiasu, jak w <em>[…]a</em>, są częścią słowa: wpisujesz tylko to,
-          co mieści się w nawiasie, a końcówkę gra dopisze sama. Nie musisz pisać dokładnie tak jak
-          w źródle — liczy się słowo, które pasuje do podpowiedzi.
-        </p>
-        <p>
-          <strong>Kliknij nawias, jeśli potrzebujesz pomocy przy konkretnej podpowiedzi.</strong>
-        </p>
-        <p>
-          Każda błędna odpowiedź dodaje do czasu {PENALTY.mistake} s, pierwsza litera — {PENALTY.letter}{' '}
-          s, a odsłonięcie całego słowa — {PENALTY.reveal} s. W tym przykładzie podpowiedzi są
-          szkoleniowe i bez kary.
-        </p>
+        <p>Rozwiąż przykład: każdy nawias to podpowiedź do słowa.</p>
         <div className="sentence small example">
           <Node
             puzzle={mini}
@@ -141,9 +138,23 @@ export default function HowTo({ onClose }: { onClose: () => void }) {
             </form>
           </>
         )}
+        <ul className="rules">
+          <li>
+            Znasz odpowiedź? <strong>Wpisz ją na dole</strong> — klikanie nawiasu nie jest potrzebne.
+          </li>
+          <li>Kilka nawiasów naraz? Rozwiązuj je w dowolnej kolejności.</li>
+          <li>
+            Litery przy nawiasie, jak w <em>[…]a</em>, dopisuje gra. Wielkość liter i polskie znaki
+            nie mają znaczenia.
+          </li>
+          <li>
+            Utknąłeś? <strong>Kliknij nawias</strong>, by wziąć podpowiedź. Kary: błąd +{PENALTY.mistake} s,
+            litera +{PENALTY.letter} s, słowo +{PENALTY.reveal} s (w przykładzie bez kary).
+          </li>
+        </ul>
         <div className="modal-foot">
-          <button ref={closeRef} type="button" className="ghost" onClick={onClose}>
-            Zamknij
+          <button ref={closeRef} type="button" onClick={onClose}>
+            Zagraj
           </button>
         </div>
       </div>

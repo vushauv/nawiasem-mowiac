@@ -2,9 +2,9 @@
   --bg: #f0eeea;
   --panel: #ffffff;
   --ink: #111111;
-  --muted: #707070;
+  --muted: #595959;
   --accent: #e2001a;
-  --lock: #8a8a8a;
+  --lock: #6b6b6b;
   --bracket: #a8292d;
   --ok: #1b7f4b;
   --line: #d6d3cc;
@@ -55,7 +55,8 @@ button:disabled { opacity: .5; cursor: default; }
   font: inherit; font-weight: 700; text-transform: none; letter-spacing: normal;
   text-align: left; line-height: inherit; cursor: pointer;
 }
-.bracket.open.selected { background: rgba(0, 0, 0, .08); }
+.bracket.open { text-decoration: underline dotted; text-underline-offset: 5px; }
+.bracket.open.selected { background: rgba(168, 41, 45, .16); text-decoration-style: solid; }
 .bracket.locked { color: var(--lock); }
 .word { color: inherit; font-weight: inherit; }
 .letter { color: var(--bracket); font-weight: 700; }
@@ -66,8 +67,11 @@ input {
   background: var(--panel); border: 2px solid var(--ink); border-radius: 2px; padding: 10px 12px;
 }
 .hints { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+.tip { margin: 0 0 4px; }
+.hints .close { min-width: 40px; }
 .msg { min-height: 1.6em; color: var(--muted); font-family: var(--sans); font-size: .85rem; margin: 8px 0 0; }
 .ok { color: var(--ok); }
+.win .row { flex-wrap: wrap; }
 
 .win { background: var(--panel); border-top: 3px solid var(--ok); border-radius: 0; padding: 16px; }
 .win h2 { margin: 0; }
@@ -87,9 +91,12 @@ a { color: var(--accent); }
 }
 @media (max-width: 480px) {
   .modal { padding: 16px; }
-  .modal ol { padding-left: 1.3em; }
 }
-.modal h2 { margin-top: 0; font: 500 2.23em/1.1 var(--serif); }
+.modal { position: relative; }
+.modal-x { position: absolute; top: 8px; right: 8px; width: 40px; height: 40px; padding: 0; font-size: 1.4rem; line-height: 1; }
+.modal h2 { margin-top: 0; padding-right: 40px; font: 500 1.6em/1.15 var(--serif); }
+.modal .rules { margin: 16px 0 0; padding-left: 1.2em; font-size: 1rem; line-height: 1.5; }
+.modal .rules li { margin-bottom: 6px; }
 .modal p { margin: 0 0 12px; font-size: 1rem; line-height: 1.5; }
 .modal .kicker { font: 700 .72rem/1.4 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 4px; }
 .modal .example { margin: 16px 0 12px; }
@@ -102,6 +109,9 @@ a { color: var(--accent); }
 footer { margin-top: 32px; color: var(--muted); font-family: var(--sans); font-size: .75rem; border-top: 1px solid var(--line); }
 @media (max-width: 480px) {
   .sentence { font-size: 1.1rem; padding: 14px; }
+  .logo { font-size: 1.5rem; }
+  .tabs { margin: 10px 0; }
+  .tab { padding: 6px 8px; }
 }
 
 /* Mobile: keep hints + answer field glued to the bottom of the screen */
@@ -110,7 +120,7 @@ footer { margin-top: 32px; color: var(--muted); font-family: var(--sans); font-s
     position: fixed;
     left: 8px;
     right: 8px;
-    bottom: calc(28px + env(safe-area-inset-bottom));
+    bottom: calc(8px + env(safe-area-inset-bottom));
     z-index: 5;
     margin: 0;
     padding: 8px 12px;
@@ -121,13 +131,28 @@ footer { margin-top: 32px; color: var(--muted); font-family: var(--sans); font-s
     box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
   }
   /* reserve room at the very end of the page so the fixed dock never covers the footer */
-  .app:has(.dock) { padding-bottom: calc(20vh + 48px); padding-bottom: calc(20svh + 48px + env(safe-area-inset-bottom)); }
+  .app:has(.dock) { padding-bottom: calc(20vh + 28px); padding-bottom: calc(20svh + 28px + env(safe-area-inset-bottom)); }
   .dock { max-height: 20vh; max-height: 20svh; overflow-y: auto; overscroll-behavior: contain; transform: translateZ(0); }
   .dock .hints { margin: 0 0 4px; gap: 6px; flex-wrap: nowrap; }
-  .dock .hints button { padding: 4px 10px; font-size: .85rem; white-space: nowrap; }
+  .dock .hints button { padding: 7px 12px; font-size: .85rem; white-space: nowrap; }
   .dock .hint-label { display: none; }
   .dock input, .dock .row button { padding-top: 6px; padding-bottom: 6px; }
   .dock .row { margin-top: 0; }
   .dock .msg { margin: 4px 0 0; min-height: 1.4em; font-size: .9rem; }
   input { font-size: 16px; } /* avoid iOS zoom on focus */
+}
+
+/* Laptop / desktop: a roomier how-to modal */
+@media (min-width: 900px) {
+  .modal { max-width: 780px; padding: 36px 44px; }
+  .modal h2 { font-size: 2.2em; margin-bottom: 12px; }
+  .modal p, .modal .rules { font-size: 1.2rem; }
+  .modal .kicker { font-size: .85rem; }
+  .modal .sentence.small { font-size: 1.4rem; padding: 18px 22px; }
+  .modal .status { font-size: 1rem; }
+  .modal .field-label { font-size: .9rem; }
+  .modal .row input { padding: 14px 16px; font-size: 1.15rem; }
+  .modal button { font-size: .95rem; padding: 12px 22px; }
+  .modal .modal-x { width: 48px; height: 48px; padding: 0; font-size: 1.6rem; top: 14px; right: 14px; }
+  .modal-foot { margin-top: 28px; }
 }

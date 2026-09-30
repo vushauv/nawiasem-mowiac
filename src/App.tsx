@@ -1,12 +1,21 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { LEVEL_LABEL, PUZZLES } from './data'
 import Game from './components/Game'
 import HowTo from './components/HowTo'
 
+const HELP_SEEN = 'nm:help-seen'
+
 export default function App() {
   const [idx, setIdx] = useState(0)
-  const [help, setHelp] = useState(true)
+  const [help, setHelp] = useState(() => {
+    try { return !localStorage.getItem(HELP_SEEN) } catch { return true }
+  })
   const puzzle = PUZZLES[idx]
+
+  const closeHelp = useCallback(() => {
+    try { localStorage.setItem(HELP_SEEN, '1') } catch { /* ignore */ }
+    setHelp(false)
+  }, [])
 
   return (
     <div className="app">
@@ -35,7 +44,12 @@ export default function App() {
       </div>
 
       <main>
-        <Game key={puzzle.id} puzzle={puzzle} />
+        <Game
+          key={puzzle.id}
+          puzzle={puzzle}
+          paused={help}
+          onNext={idx < PUZZLES.length - 1 ? () => setIdx(idx + 1) : undefined}
+        />
       </main>
 
       <footer>
@@ -49,7 +63,7 @@ export default function App() {
         <p>To prototyp przygotowany na potrzeby zgłoszenia konkursowego.</p>
       </footer>
 
-      {help && <HowTo onClose={() => setHelp(false)} />}
+      {help && <HowTo onClose={closeHelp} />}
     </div>
   )
 }
