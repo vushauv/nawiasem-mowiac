@@ -144,8 +144,12 @@ export default function HowTo({ onClose }: { onClose: () => void }) {
           </li>
           <li>Kilka nawiasów naraz? Rozwiązuj je w dowolnej kolejności.</li>
           <li>
-            Litery przy nawiasie, jak w <em>[…]a</em>, dopisuje gra. Wielkość liter i polskie znaki
-            nie mają znaczenia.
+            Każdy nawias to <strong>jedno prawdziwe słowo w mianowniku</strong>, np. <em>kot</em>.
+          </li>
+          <li>
+            Końcówkę przy nawiasie, jak w <em>[…]a</em>, dopisuje gra — nie musisz jej wpisywać:
+            wystarczy <em>kot</em>, by uzyskać <em>kota</em>. Wielkość liter i polskie znaki nie mają
+            znaczenia.
           </li>
           <li>
             Utknąłeś? <strong>Kliknij nawias</strong>, by wziąć podpowiedź. Kary: błąd +{PENALTY.mistake} s,

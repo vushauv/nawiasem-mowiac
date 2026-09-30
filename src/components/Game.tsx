@@ -66,6 +66,27 @@ export default function Game({ puzzle, paused = false, onNext }: Props) {
     if (!paused && canHover()) inputRef.current?.focus()
   }, [paused])
 
+  // mobile: iOS doesn't shrink the layout viewport for the keyboard, so the bottom-fixed dock
+  // lands behind it and the browser scrolls the page on every keystroke to reveal the caret.
+  // Expose the keyboard's height as --kb so the dock can sit right on top of it.
+  useEffect(() => {
+    const vv = window.visualViewport
+    if (!vv) return
+    const root = document.documentElement.style
+    const update = () => {
+      const kb = Math.max(0, window.innerHeight - vv.height - vv.offsetTop)
+      root.setProperty('--kb', `${Math.round(kb)}px`)
+    }
+    update()
+    vv.addEventListener('resize', update)
+    vv.addEventListener('scroll', update)
+    return () => {
+      vv.removeEventListener('resize', update)
+      vv.removeEventListener('scroll', update)
+      root.removeProperty('--kb')
+    }
+  }, [])
+
   // feedback fades out; a destructive action stays "armed" for a few seconds only
   useEffect(() => {
     if (!msg) return

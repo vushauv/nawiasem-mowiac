@@ -132,6 +132,7 @@ footer { margin-top: 32px; color: var(--muted); font-family: var(--sans); font-s
     left: 8px;
     right: 8px;
     bottom: calc(8px + env(safe-area-inset-bottom));
+    bottom: max(8px + env(safe-area-inset-bottom), 8px + var(--kb, 0px)); /* --kb: keyboard height, set in Game */
     z-index: 5;
     margin: 0;
     padding: 8px 12px;
