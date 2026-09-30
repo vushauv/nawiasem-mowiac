@@ -1,6 +1,18 @@
+# Dev setup with hot reload: source is bind-mounted, Vite dev server on :8080.
+# For a production-style image use the Dockerfile directly.
 services:
   web:
-    build: .
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --port 8080"
     ports:
       - "8080:8080"
+    environment:
+      USE_POLLING: "1"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
     restart: unless-stopped
+
+volumes:
+  node_modules:

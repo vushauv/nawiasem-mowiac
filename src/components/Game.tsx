@@ -143,12 +143,12 @@ export default function Game({ puzzle }: { puzzle: Puzzle }) {
         <div className="dock">
           {selected && (
             <div className="hints" role="group" aria-label="Podpowiedzi dla wybranego nawiasu">
-              <span>Podpowiedź:</span>
+              <span className="hint-label">Podpowiedź:</span>
               <button type="button" onClick={hintLetter} disabled={letters.has(selected)}>
-                Pierwsza litera (+{PENALTY.letter} s)
+                Litera (+{PENALTY.letter} s)
               </button>
               <button type="button" onClick={hintReveal}>
-                Pokaż słowo (+{PENALTY.reveal} s)
+                Słowo (+{PENALTY.reveal} s)
               </button>
               <button type="button" className="ghost" onClick={() => setSelected(null)}>
                 ×

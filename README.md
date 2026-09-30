@@ -5,7 +5,11 @@ Built for a game-contest submission.
 
 ## Run
 
-    docker compose up --build      # http://localhost:8080
+    docker compose up              # http://localhost:8080, hot reload (dev server)
+
+Production-style image (built static bundle, served by `vite preview`):
+
+    docker build -t nawiasem . && docker run -p 8080:8080 nawiasem
 
 or locally: `npm install && npm run dev`.
 
