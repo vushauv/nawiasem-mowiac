@@ -39,7 +39,13 @@ export default function App() {
       </main>
 
       <footer>
-        <p>Mechanika zainspirowana grą Ра[скобки] (Dmitrii Usenko).</p>
+        <p>
+          Mechanika zainspirowana grą{' '}
+          <a href="https://raskobki.app/" target="_blank" rel="noreferrer">
+            Ра[скобки]
+          </a>{' '}
+          (Dmitrii Usenko).
+        </p>
         <p>To prototyp przygotowany na potrzeby zgłoszenia konkursowego.</p>
       </footer>
 

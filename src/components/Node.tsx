@@ -10,12 +10,13 @@ interface Props {
   open: string[]
   selected: string | null
   onSelect: (id: string) => void
+  depth?: number
 }
 
 // Renders a node's template; each {child} becomes either the solved word
 // or a bracket that renders the child recursively.
 export default function Node(props: Props) {
-  const { puzzle, id, solved, revealed, letters, open, selected, onSelect } = props
+  const { puzzle, id, solved, revealed, letters, open, selected, onSelect, depth = 0 } = props
   const parts = puzzle.nodes[id].template.split(/(\{\w+\})/)
 
   return (
@@ -34,7 +35,7 @@ export default function Node(props: Props) {
           )
         }
 
-        const inner = <Node {...props} id={c} />
+        const inner = <Node {...props} id={c} depth={depth + 1} />
         const isOpen = open.includes(c)
 
         if (isOpen) {
@@ -42,7 +43,7 @@ export default function Node(props: Props) {
             <button
               key={i}
               type="button"
-              className={`bracket open${selected === c ? ' selected' : ''}`}
+              className={`bracket open d${depth % 5}${selected === c ? ' selected' : ''}`}
               aria-label={`Nawias do odgadnięcia: ${plainText(puzzle, c, solved)}`}
               aria-pressed={selected === c}
               onClick={() => onSelect(c)}
@@ -60,7 +61,7 @@ export default function Node(props: Props) {
         return (
           <span
             key={i}
-            className="bracket locked"
+            className={`bracket locked d${depth % 5}`}
             aria-label={`Zablokowany nawias: ${plainText(puzzle, c, solved)}`}
           >
             <span className="br">[</span>
