@@ -10,6 +10,7 @@ interface Props {
   open: string[]
   selected: string | null
   onSelect: (id: string) => void
+  fresh?: string[] // just guessed: flashed once
   depth?: number
 }
 
@@ -19,7 +20,7 @@ const WJ = '\u2060'
 // Renders a node's template; each {child} becomes either the solved word
 // or a bracket that renders the child recursively.
 export default function Node(props: Props) {
-  const { puzzle, id, solved, revealed, letters, open, selected, onSelect, depth = 0 } = props
+  const { puzzle, id, solved, revealed, letters, open, selected, onSelect, fresh = [], depth = 0 } = props
   const parts = puzzle.nodes[id].template.split(/(\{\w+\})/)
 
   return (
@@ -32,7 +33,10 @@ export default function Node(props: Props) {
 
         if (solved.has(c)) {
           return (
-            <strong key={i} className={revealed.has(c) ? 'word revealed' : 'word'}>
+            <strong
+              key={i}
+              className={`word${revealed.has(c) ? ' revealed' : ''}${fresh.includes(c) ? ' fresh' : ''}`}
+            >
               {child.shown ?? child.answer}
             </strong>
           )

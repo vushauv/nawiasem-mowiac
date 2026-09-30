@@ -32,6 +32,7 @@ export default function Game({ puzzle, paused = false, onNext }: Props) {
   const [value, setValue] = useState('')
   const [msg, setMsg] = useState('')
   const [armed, setArmed] = useState<'reveal' | 'reset' | null>(null)
+  const [fresh, setFresh] = useState<string[]>([])
   const missStreak = useRef(0)
   const [visible, setVisible] = useState(!document.hidden)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -72,6 +73,11 @@ export default function Game({ puzzle, paused = false, onNext }: Props) {
     return () => clearTimeout(t)
   }, [msg])
   useEffect(() => {
+    if (!fresh.length) return
+    const t = setTimeout(() => setFresh([]), 1200)
+    return () => clearTimeout(t)
+  }, [fresh])
+  useEffect(() => {
     if (!armed) return
     const t = setTimeout(() => setArmed(null), 4000)
     return () => clearTimeout(t)
@@ -85,6 +91,7 @@ export default function Game({ puzzle, paused = false, onNext }: Props) {
     const hit = matchAnswer(puzzle, solved, value)
     if (hit.length) {
       setS((x) => ({ ...x, started: true, solved: [...x.solved, ...hit] }))
+      setFresh(hit)
       missStreak.current = 0
       setMsg('Trafione!')
       if (selected && hit.includes(selected)) setSelected(null)
@@ -129,7 +136,7 @@ export default function Game({ puzzle, paused = false, onNext }: Props) {
   }
 
   const nodeProps = {
-    puzzle, solved, revealed, letters, open, selected, onSelect: select,
+    puzzle, solved, revealed, letters, open, selected, onSelect: select, fresh,
   }
   const total = score(s)
   const pen = penalty(s)

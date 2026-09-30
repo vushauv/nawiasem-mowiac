@@ -58,7 +58,18 @@ button:disabled { opacity: .5; cursor: default; }
 .bracket.open { text-decoration: underline dotted; text-underline-offset: 5px; }
 .bracket.open.selected { background: rgba(168, 41, 45, .16); text-decoration-style: solid; }
 .bracket.locked { color: var(--lock); }
-.word { color: inherit; font-weight: inherit; }
+/* guessed words stay marked; hint-revealed ones are greyed so the difference shows */
+.word {
+  color: var(--ok); font-weight: 700; background: rgba(27, 127, 75, .12);
+  border-radius: 2px; padding: 0 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone;
+}
+.word.revealed { color: var(--muted); background: rgba(0, 0, 0, .06); font-style: italic; }
+.word.fresh { animation: word-pop 1.2s ease-out; }
+@keyframes word-pop {
+  0% { background: rgba(27, 127, 75, .55); }
+  100% { background: rgba(27, 127, 75, .12); }
+}
+@media (prefers-reduced-motion: reduce) { .word.fresh { animation: none; } }
 .letter { color: var(--bracket); font-weight: 700; }
 
 .row { display: flex; gap: 8px; margin-top: 12px; }

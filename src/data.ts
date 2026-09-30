@@ -57,55 +57,52 @@ const medium: Puzzle = {
   nodes: {
     root: {
       template:
-        'W {zamek}u Królewskim {sejm} uchwalił {konst}ę 3 {maj}a, a {imp} nie była tym zachwycona.',
+        '{zamek} Królewski był świadkiem, jak w {rok}u 1791 {sejm} uchwalił ustawę znaną jako {konst} 3 {maj}a, czym rozgniewał {car}ycę {kat}.',
     },
     zamek: {
-      template:
-        'dom {krol}, wysadzony w 1944',
-      answer: 'Zamk',
-      aliases: ['Zamek'],
+      template: 'dom {krol}a, wysadzony w 1944',
+      answer: 'Zamek',
     },
     krol: {
-      template: 'gospodarz obiadów czwartkowych',
-      answer: 'Stanisław August',
-      shown: 'Stanisława Augusta',
-      aliases: ['Stanisław August Poniatowski', 'Poniatowski'],
+      template: 'najważniejsza figura na szachownicy',
+      answer: 'król',
+    },
+    rok: {
+      template: 'dwanaście miesięcy',
+      answer: 'rok',
     },
     sejm: {
-      template: '{cztery}oletni parlament reform',
+      template: 'parlament obradujący {cztery} lata',
       answer: 'Sejm Czteroletni',
       aliases: ['Sejm Wielki', 'Sejm'],
     },
     cztery: {
       template: 'tyle pór roku',
-      answer: 'czter',
-      aliases: ['cztery', '4'],
+      answer: 'cztery',
+      aliases: ['4'],
     },
     konst: {
-      template: 'pierwsza taka w Europie',
-      answer: 'Konstytucj',
-      aliases: ['Konstytucja', 'Ustawa Rządowa'],
+      template: 'pierwsza taka w Europie, druga na świecie',
+      answer: 'Konstytucja',
+      aliases: ['Ustawa Rządowa'],
     },
     maj: {
       template: 'miesiąc maturzystów i kasztanów',
       answer: 'maj',
     },
-    imp: {
-      template: 'wielki kraj pod rządami {caryca}',
-      answer: 'Rosja',
-      aliases: ['Imperium Rosyjskie'],
+    car: {
+      template: 'tytuł władcy Rosji',
+      answer: 'car',
     },
-    caryca: {
-      template: 'Katarzyna {dwa}, zwana Wielką',
+    kat: {
+      template: 'Niemka na rosyjskim tronie, która obaliła męża, {piotr}a III',
       answer: 'Katarzyna II',
       shown: 'Katarzynę II',
       aliases: ['Katarzyna Wielka', 'Katarzyna'],
     },
-    dwa: {
-      template: 'tyle nóg ma człowiek',
-      answer: 'dwa',
-      shown: 'II',
-      aliases: ['2', 'II'],
+    piotr: {
+      template: 'imię apostoła z kluczami do nieba',
+      answer: 'Piotr',
     },
   },
 }
